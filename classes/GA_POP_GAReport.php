@@ -1,8 +1,7 @@
 <?php
-
-require_once __DIR__ . '/Post.php';
-require_once __DIR__ . '/Database.php';
-class GAReport{
+require_once __DIR__ . '/GA_POP_Post.php';
+require_once __DIR__ . '/GA_POP_Database.php';
+class GA_POP_GAReport{
 
     private $analytics;
     private $key_file;
@@ -108,9 +107,9 @@ class GAReport{
 
                 $path_name = $dimensions[0];
                 $pv = $metrics[0]->getValues()[0];
-                $post = new Post($path_name,$pv);
+                $post = new GA_POP_Post($path_name,$pv);
 
-                $title = Database::get_tilte_by_path_name($post->get_post_name());
+                $title = GA_POP_Database::get_tilte_by_path_name($post->get_post_name());
                 if ( strlen($title) > 0){
                     $post->set_title($title);
                     $posts[] = $post;

@@ -1,13 +1,11 @@
 <?php
 
-// require_once __DIR__ . '/ga-pop-posts.php';
-
-add_action( 'widgets_init', create_function( '', 'return register_widget( "WidgetItemClass" );' ) );
-class WidgetItemClass extends WP_Widget {
+add_action( 'widgets_init', create_function( '', 'return register_widget( "GA_POP_Widget" );' ) );
+class GA_POP_Widget extends WP_Widget {
 
 	// コンストラクタ
-	function WidgetItemClass() {
-		parent::WP_Widget( false, $name = 'Google Analytics POP Posts' );
+	function __construct() {
+		parent::__construct( false, $name = 'Google Analytics POP Posts' );
 	}
 
 	// 公開ページで出力するメソッド
@@ -62,10 +60,6 @@ class WidgetItemClass extends WP_Widget {
 				<strong>Title（If you don't show anything, empty the textbox）</strong>
 			</label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'widget_title' ); ?>" name="<?php echo $this->get_field_name( 'widget_title' ); ?>" type="text" value="<?php echo $widget_title; ?>" />
-			<label for="<?php echo $this->get_field_id( 'show_list' ); ?>">
-				<strong>Show List</strong>
-			</label>
-			<input type="number" class="widefat" id="<?php echo $this->get_field_id( 'show_list' ); ?>" name="<?php echo $this->get_field_name( 'show_list' ); ?>" type="text" value="<?php echo $show_list; ?>" />
 		</p>
 
 		<?php

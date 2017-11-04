@@ -1,6 +1,6 @@
 <?php
 
-class Post {
+class GA_POP_Post {
 
     private $path_name = '';
     private $post_name = '';
