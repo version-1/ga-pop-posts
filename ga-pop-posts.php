@@ -2,10 +2,10 @@
 /*
 Plugin Name: Google Analytics POP posts
 Plugin URI: http://www.example.com/plugin
-Description: get popular posts in your blog
+Description: get popular posts based on Google Analytics in your blog 
 Author: version1
 Version: 0.1
-Author URI: http://ver-1-0.net
+Author URI: http://www.example.com/plugin
 */
 
 $GA_POP_KEY_FILE_LOCATION = __DIR__ . '/uploads/files/service-account-credentials.json';
@@ -31,19 +31,30 @@ function get_pop_posts(){
         $view_id = $options['view_id'];
         $date_from = $options['date_from'].'daysAgo';
         $count = $options['show_list'];
+        $exclude_urls = explode(',',str_replace(PHP_EOL,'',$options['exclude_url']));
+
+        if(!file_exists($GA_POP_KEY_FILE_LOCATION)){
+            html_error_render('MISS_KEY_FILE');
+            return false;
+        }
+
+        if(!$view_id){
+            html_error_render('UNSET_VIEW_ID');
+            return false;
+        }
 
         if ( ! isset($count) || $count < 1){
             $count = $GA_POP_DEFAULT_DISPLAY_COUNT;
         }
 
-        get_rankings($count,$GA_POP_KEY_FILE_LOCATION, $view_id,$date_from);
+        get_rankings($count ,$GA_POP_KEY_FILE_LOCATION ,$view_id ,$date_from ,$exclude_urls);
     }else{
         echo $cache;
     }
 }
 
-function get_rankings($count = 10, $key_file , $view_id,$date_from){
-    $report = new GA_POP_GAReport($key_file ,$view_id , $date_from);
+function get_rankings($count = 10, $key_file , $view_id,$date_from,$exclude_urls ){
+    $report = new GA_POP_GAReport($key_file ,$view_id , $date_from,$exclude_urls );
     $report->getReport();
     $posts = $report->fetchResults($count);
     html_render($posts);
@@ -58,4 +69,21 @@ function html_render($posts){
     echo $html;
     global $GA_POP_CACHE_FILE_LOCATION;
     file_put_contents($GA_POP_CACHE_FILE_LOCATION,$html);
+}
+
+function html_error_render($type){
+    if(!WP_DEBUG){
+        return;
+    }
+    switch ($type) {
+        case 'MISS_KEY_FILE':
+        echo "<p>Failed to get articles.Private Key File is Not Found.Please confirm your Google Analytics POP Posts settings</p>";
+        break;
+        case "UNSET_VIEW_ID":
+        echo "<p>Failed to get articles.View ID is not set. Please confirm your configuration</p>";
+        break;
+        default:
+        echo "<p>Failed to get articles.Please confirm your Google Analytics POP Posts settings</p>";
+        break;
+    }
 }

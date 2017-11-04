@@ -159,7 +159,7 @@ class GA_POP_Configuration
 			              <td><input type="number" name="ga_pop_setting[date_from]" value="<?php echo $date_from;?>" required/></td>
 			          </tr>
 			          <tr class="urls">
-			              <th style="">Exclude URL<br><span style="font-weight:normal;">please input urls separated by comas</span></th>
+			              <th style="">Exclude URL<br><span style="font-weight:normal;color:#006799;">please input urls separated by comas</span></th>
 			              <td>:</td>
 			              <td>
 							  <textarea name="ga_pop_setting[exclude_url]" placeholder="/,/profile,/links ..."><?php echo $this->options['exclude_url']?></textarea>
