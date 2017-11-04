@@ -3,22 +3,14 @@
 add_action( 'widgets_init', create_function( '', 'return register_widget( "GA_POP_Widget" );' ) );
 class GA_POP_Widget extends WP_Widget {
 
-	// コンストラクタ
 	function __construct() {
 		parent::__construct( false, $name = 'Google Analytics POP Posts' );
 	}
 
-	// 公開ページで出力するメソッド
 	function widget( $args, $instance ) {
 
-		// ウィジェットエリアで設定したデータの連想配列を展開
-		// $before_widget ウィジェット前に出力すべきタグ
-		// $after_widget ウィジェット後に出力すべきタグ（基本的には$before_widgetの閉じタグ）
-		// $before_title タイトル前に出力すべきタグ
-		// $after_title タイトル後に出力すべきタグ（基本的には$after_titleの閉じタグ）
 		extract( $args );
 
-		// 設定からタイトルを取得
 		$widget_title = $instance[ 'widget_title' ];
 
 		echo $before_widget;
@@ -44,15 +36,11 @@ class GA_POP_Widget extends WP_Widget {
 	// 設定フォームを出力するメソッド
 	function form( $instance ) {
 
-		// 標準値を設定
-		$defaults = array( 'widget_title' => 'Popular Posts', 'show_list' => 5 );
+		$defaults = array( 'widget_title' => 'Popular Posts');
 
-		// 配列をパース
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
-		// 設定済みのデータを取得
 		$widget_title = esc_attr( $instance[ 'widget_title' ] );
-		$show_list = esc_attr( $instance[ 'show_list' ] );
 		?>
 
 		<p>
