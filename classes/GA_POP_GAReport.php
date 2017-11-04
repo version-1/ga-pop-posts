@@ -14,7 +14,7 @@ class GA_POP_GAReport{
     private $ga_orderbies = [];
     private $reports;
 
-    function __construct($key_file, $view_id , $date_from)
+    function __construct($key_file, $view_id , $date_from ,$exclude_urls)
     {
         // Creates and returns the Analytics Reporting service object.
         $this->key_file = $key_file;
@@ -30,7 +30,7 @@ class GA_POP_GAReport{
 
         $this->set_date_range();
         $this->set_metrics();
-        $this->set_filter();
+        $this->set_filter($exclude_urls);
         $this->set_dimension();
         $this->set_orderby();
     }
@@ -66,13 +66,13 @@ class GA_POP_GAReport{
         $this->ga_metrics[] = $metric;
     }
 
-    private function set_filter(){
+    private function set_filter($exclude_urls){
         // Filter
         $filter = new Google_Service_AnalyticsReporting_DimensionFilter();
         $filter->setDimensionName("ga:pagePathLevel4");
         $filter->setNot(true);
         $filter->setOperator("IN_LIST");
-        $filter->setExpressions( ["/", "/profile/"] );
+        $filter->setExpressions($exclude_urls);
         $this->ga_filters = new Google_Service_AnalyticsReporting_DimensionFilterClause();
         $this->ga_filters->setFilters([$filter]);
     }
@@ -100,6 +100,7 @@ class GA_POP_GAReport{
             $report = $this->reports[ $reportIndex ];
             $rows = $report->getData()->getRows();
 
+            $display_count = $display_count > count($rows) ? count($rows) : $display_count;
             for ( $rowIndex = 0; $rowIndex < $display_count; $rowIndex++) {
                 $row = $rows[ $rowIndex ];
                 $dimensions = $row->getDimensions();
