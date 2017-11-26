@@ -48,7 +48,11 @@ class GA_POP_Configuration
 		global $GA_POP_CACHE_FILE_LOCATION;
 
         $this->options = get_option( 'ga_pop_setting' );
-		$this->is_uploaded = file_get_contents($GA_POP_KEY_FILE_LOCATION);
+        if ( file_exists($GA_POP_KEY_FILE_LOCATION)){
+		    $this->is_uploaded = file_get_contents($GA_POP_KEY_FILE_LOCATION);
+        }else{
+            $this->is_uploaded = false;
+        }
 
         $this->errors = array();
         $this->success = "";

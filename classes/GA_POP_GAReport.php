@@ -110,9 +110,10 @@ class GA_POP_GAReport{
                 $pv = $metrics[0]->getValues()[0];
                 $post = new GA_POP_Post($path_name,$pv);
 
-                $title = GA_POP_Database::get_tilte_by_path_name($post->get_post_name());
-                if ( strlen($title) > 0){
-                    $post->set_title($title);
+                $row = GA_POP_Database::get_post_by_path_name($post->get_post_name());
+                if ($row){
+                    $post->set_post_id($row['id']);
+                    $post->set_title($row['post_title']);
                     $posts[] = $post;
                 }
             }

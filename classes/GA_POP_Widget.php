@@ -16,7 +16,7 @@ class GA_POP_Widget extends WP_Widget {
 		echo $before_widget;
 
 		if( $widget_title != '' ) {
-			echo $before_title . '<span class="widget-title">' . $widget_title . '</span>' . $after_title;
+			echo $before_title . '<span>' . $widget_title . '</span>' . $after_title;
 		}
 
 		?>
