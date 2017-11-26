@@ -10,7 +10,7 @@ Author URI: http://www.example.com/plugin
 
 $GA_POP_KEY_FILE_LOCATION = __DIR__ . '/uploads/files/service-account-credentials.json';
 $GA_POP_CACHE_FILE_LOCATION = __DIR__.'/cache/posts.tmp';
-$ENABLE_CACHE = false;
+$ENABLE_CACHE = true;
 $GA_POP_DEFAULT_DISPLAY_COUNT = 5;
 $GA_POP_DEFAULT_DATE_FROM_NUM = 90;
 
@@ -60,6 +60,6 @@ function get_rankings($count = 10, $key_file , $view_id,$date_from,$exclude_urls
     $report = new GA_POP_GAReport($key_file ,$view_id , $date_from,$exclude_urls );
     $report->getReport();
     $posts = $report->fetchResults($count);
-    $html = new GA_POP_TableRenderer($posts ,[ 'size' => [100,100]]);
+    $html = new GA_POP_TableRenderer($posts ,[ 'size' => [100,100],'attr' => [ 'class' => 'pop-posts-thumbnail']]);
     $html->render();
 }
