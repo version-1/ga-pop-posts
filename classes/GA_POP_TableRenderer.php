@@ -4,7 +4,7 @@ class GA_POP_TableRenderer extends GA_POP_Renderer {
 
 	function generate(){
 	    foreach($this->posts as $post){
-	       $body = $body."<tr><td>{image}</td><td>{title}</td></tr>";
+	       $body = $body."<tr><td><a href='".$post->get_path_name()."'>{image}</a></td><td>{title}</td></tr>";
            $size = $this->options['size'] ? $this->options['size'] : [100,100];
            $attr = $this->options['attr'] ? $this->options['attr'] : [];
 
