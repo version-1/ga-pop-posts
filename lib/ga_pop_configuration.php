@@ -62,7 +62,9 @@ class GA_POP_Configuration
       $input = $_POST['ga_pop_setting'];
       $file = $_FILES['keyfile'];
 
-      wp_cache_delete('ga_pop_posts_cache');
+      if (file_exists($GA_POP_CACHE_FILE_LOCATION)){
+        unlink($GA_POP_CACHE_FILE_LOCATION);
+      }
       if (is_uploaded_file($file['tmp_name'])){
         if(!move_uploaded_file($file['tmp_name'],$GA_POP_KEY_FILE_LOCATION)){
           $this->errors['keyfile'] = "Failed to upload";
